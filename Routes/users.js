@@ -51,8 +51,44 @@ router.get('/:id',(req,res)=>{
 
 router.delete('/:id',(req,res)=>{
     const {id}=req.params;
-    users=users.filter((user)=>user.id===id);
+    users=users.filter((user)=>user.id!==id);
     res.send(`User with id ${id} deleted`)
+})
+
+// PUT is for checking if resource exists then update, else create new resource
+
+router.put('/:id',(req,res)=>{
+      console.log(req.body)
+      res.send({result:"Update"})
+})
+
+//Patch is for updating directly if doesn't exist then return error
+
+router.patch('/:id',(req,res)=>{
+  const {id}=req.params;
+  const {FName, LName,Age}=req.body;
+  const user=users.find((user)=>user.id===id);
+  if(FName){
+    user.FName = FName;
+  }
+  if(LName){
+    user.LName = LName;
+  }
+  if(Age){
+    user.Age = Age;
+  }
+  let jsonP = JSON.stringify(users)
+
+  fs.writeFile(".././data.json", jsonP, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      else {
+        console.log("\nFile Contents pushed using patch")
+      }
+    });
+  res.send(`user with ${id} has been updated`)
+ 
 })
 
 export default router;
