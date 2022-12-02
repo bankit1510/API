@@ -3,12 +3,21 @@ import { v4 as uuidv4 } from 'uuid';
 import fs from 'fs';
 const router = express.Router();
 
-const users =[
+let users =[
  
 ]
 
 router.get('/',(req,res)=>{
-    res.send(users)
+  fs.readFile('.././data.json',(err,data)=>{
+    if(err){
+        console.log(err)
+    }
+    else{
+      users=JSON.parse(data)
+        res.send(users)
+    }
+})
+    // res.send(users)
 })
 
 router.post('/',(req,res)=>{
@@ -19,13 +28,14 @@ router.post('/',(req,res)=>{
         id:uuidv4()
     }
     users.push(userWithID)
+    let json = JSON.stringify(users)
     
-    fs.appendFile("../data.json", JSON.stringify(userWithID), (err) => {
+    fs.writeFile(".././data.json", json, (err) => {
         if (err) {
           console.log(err);
         }
         else {
-          console.log("\nFile Contents of file after append:")
+          console.log("\nFile Contents pushed")
         }
       });
       
