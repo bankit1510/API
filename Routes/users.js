@@ -1,6 +1,8 @@
 import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
+import validator from "validator";
+import isAlpha from "validator/lib/isAlpha.js";
 
 const router = express.Router();
 
@@ -13,14 +15,18 @@ fs.readFile(".././data.json", (err, data) => {
     users = JSON.parse(data);
   }
 });
-// Getting the user data
+
 router.get("/", (req, res) => {
   res.send(users);
 });
 // Adding data to the file
 router.post("/", (req, res) => {
   const user = req.body;
-  if (user.FName == null || user.LName == null || user.Age == null) {
+  if (
+    !validator.isAlpha(user.FName) ||
+    !validator.isAlpha(user.LName) ||
+    isAlpha == ""
+  ) {
     res.send("Please enter valid data");
   } else {
     const userWithID = {
