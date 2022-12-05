@@ -15,25 +15,21 @@ fs.readFile(".././data.json", (err, data) => {
 });
 
 router.get("/", (req, res) => {
-  // fs.readFile(".././data.json", (err, data) => {
-  //   if (err) {
-  //     console.log(err);
-  //   } else {
-  //     users = JSON.parse(data);
-  //     res.send(users);
-  //   }
-  // });
   res.send(users);
 });
 
 router.post("/", (req, res) => {
   const user = req.body;
-
-  const userWithID = {
-    ...user,
-    id: uuidv4(),
-  };
-  users.push(userWithID);
+  if (user.FName == null || user.LName == null || user.Age == null) {
+    res.send("Please enter valid data");
+  } else {
+    const userWithID = {
+      ...user,
+      id: uuidv4(),
+    };
+    users.push(userWithID);
+    res.send("User Data Pushed");
+  }
   let json = JSON.stringify(users);
 
   fs.writeFile(".././data.json", json, (err) => {
@@ -43,8 +39,6 @@ router.post("/", (req, res) => {
       console.log("\nFile Contents pushed");
     }
   });
-
-  res.send("User Data Pushed");
 });
 
 router.get("/:id", (req, res) => {
