@@ -72,13 +72,9 @@ router.patch("/:id", (req, res) => {
   const { FName, LName, Age } = req.body;
   const user = users.find((user) => user.id === id);
   if (FName) user.FName = FName;
-
   if (LName) user.LName = LName;
-
   if (Age) user.Age = Age;
-
   let json = JSON.stringify(users);
-
   fs.writeFile(".././data.json", json, (err) => {
     if (err) {
       console.log(err);
@@ -88,5 +84,4 @@ router.patch("/:id", (req, res) => {
   });
   res.send(`user with ${id} has been updated`);
 });
-
 export default router;
