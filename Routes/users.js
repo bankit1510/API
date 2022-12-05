@@ -1,6 +1,7 @@
 import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
+import e from "express";
 
 const router = express.Router();
 
@@ -55,14 +56,15 @@ router.get("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
   users = users.filter((user) => user.id !== id);
+  let json = JSON.stringify(users);
+  fs.writeFile(".././data.json", json, (err) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log("\nFile Contents pushed using patch");
+    }
+  });
   res.send(`User with id ${id} deleted`);
-});
-
-// PUT is for checking if resource exists then update, else create new resource
-
-router.put("/:id", (req, res) => {
-  console.log(req.body);
-  res.send({ result: "Update" });
 });
 
 //Patch is for updating directly if doesn't exist then return error
