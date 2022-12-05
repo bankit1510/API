@@ -6,6 +6,7 @@ import e from "express";
 const router = express.Router();
 
 let users = [];
+// Reading the file in global scope
 fs.readFile(".././data.json", (err, data) => {
   if (err) {
     console.log(err);
@@ -13,11 +14,11 @@ fs.readFile(".././data.json", (err, data) => {
     users = JSON.parse(data);
   }
 });
-
+// Getting the user data
 router.get("/", (req, res) => {
   res.send(users);
 });
-
+// Adding data to the file
 router.post("/", (req, res) => {
   const user = req.body;
   if (user.FName == null || user.LName == null || user.Age == null) {
@@ -40,13 +41,13 @@ router.post("/", (req, res) => {
     }
   });
 });
-
+// to get the details about the specific  id
 router.get("/:id", (req, res) => {
   const { id } = req.params;
   const foundUser = users.find((user) => user.id === id);
   res.send(foundUser);
 });
-
+// To delete the user
 router.delete("/:id", (req, res) => {
   const { id } = req.params;
   users = users.filter((user) => user.id !== id);
