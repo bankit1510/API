@@ -16,6 +16,8 @@ fs.readFile(".././data.json", (err, data) => {
   }
 });
 
+//Getting the data from file
+
 router.get("/", (req, res) => {
   res.send(users);
 });
