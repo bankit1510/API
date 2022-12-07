@@ -2,7 +2,6 @@ import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import fs from "fs";
 import validator from "validator";
-import isAlpha from "validator/lib/isAlpha.js";
 
 const router = express.Router();
 
@@ -25,9 +24,9 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const user = req.body;
   if (
-    !validator.isAlpha(user.FName) ||
-    !validator.isAlpha(user.LName) ||
-    isAlpha == ""
+    !validator.isAlpha(user.fName) ||
+    !validator.isAlpha(user.lName) ||
+    !Number.isInteger(user.age)
   ) {
     res.send("Please enter valid data");
   } else {
@@ -35,8 +34,8 @@ router.post("/", (req, res) => {
       ...user,
       id: uuidv4(),
     };
+    res.send(`User Data Pushed with id ${userWithID.id}`);
     users.push(userWithID);
-    res.send("User Data Pushed");
   }
   let json = JSON.stringify(users);
 
@@ -73,11 +72,11 @@ router.delete("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const { id } = req.params;
-  const { FName, LName, Age } = req.body;
+  const { fName, lName, age } = req.body;
   const user = users.find((user) => user.id === id);
-  if (FName) user.FName = FName;
-  if (LName) user.LName = LName;
-  if (Age) user.Age = Age;
+  if (fName) user.fName = fName;
+  if (lName) user.lName = lName;
+  if (age) user.age = age;
   let json = JSON.stringify(users);
   fs.writeFile(".././data.json", json, (err) => {
     if (err) {
