@@ -12,9 +12,9 @@ router.post("/", (req, res) => {
   req.body.age = parseInt(req.body.age);
   console.log(req.body);
   if (
-    !validator.isAlpha(user.fName) ||
-    !validator.isAlpha(user.lName) ||
-    !Number.isInteger(user.age)
+    !validator.isAlpha(user.fName)
+    // ||!validator.isAlpha(user.lName)
+    // || !Number.isInteger(user.age)
   ) {
     res.send("Please enter valid data");
   } else {
