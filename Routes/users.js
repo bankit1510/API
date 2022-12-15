@@ -2,9 +2,7 @@ import express from "express";
 import { v4 as uuidv4 } from "uuid";
 import fs, { read } from "fs";
 import validator from "validator";
-
 const router = express.Router();
-
 router.get("/", (req, res) => {
   res.send(readFile());
 });
@@ -59,9 +57,7 @@ router.delete("/:id", (req, res) => {
   });
   res.send(`User with id ${id} deleted`);
 });
-
 //Patch is for updating directly if doesn't exist then return error
-
 router.patch("/:id", (req, res) => {
   const users = readFile();
   const { id } = req.params;
@@ -78,7 +74,6 @@ router.patch("/:id", (req, res) => {
       console.log("\nFile Contents pushed using patch");
     }
   });
-
   res.send(`user with ${id} has been updated`);
 });
 
